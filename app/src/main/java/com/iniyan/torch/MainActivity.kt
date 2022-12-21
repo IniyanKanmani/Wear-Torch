@@ -19,6 +19,7 @@ class MainActivity : Activity() {
     companion object {
         private var currentScreenBrightnessMode: Int = Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL
         private var currentScreenBrightnessValue: Int = 0
+        private var isTorchOn = true
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -64,7 +65,7 @@ class MainActivity : Activity() {
             applicationContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS, 255
         )
 
-        var alpha = 255
+        var alpha = if (isTorchOn) 255 else 0
         val red = 255
         val green = 255
         val blue = 255
@@ -89,18 +90,22 @@ class MainActivity : Activity() {
 
                 rotation += delta
 
-                if (rotation > 12) {
-                    rotation = 12
-                } else if (rotation < 0) {
+                if (rotation < 0) {
                     rotation = 0
+                } else if (rotation > 24) {
+                    rotation = 24
                 }
 
-                alpha = ((rotation / 12.0) * 255).toInt()
+                alpha = ((rotation / 24.0) * 255).toInt()
 
-                if (alpha > 255) {
-                    alpha = 255
+                if (alpha == 0) {
+                    isTorchOn = false
+                } else if (alpha in 1..255) {
+                    isTorchOn = true
                 } else if (alpha < 0) {
                     alpha = 0
+                } else {
+                    alpha = 255
                 }
 
                 button.setBackgroundColor(Color.argb(alpha, red, green, blue))
@@ -108,6 +113,12 @@ class MainActivity : Activity() {
             } else {
                 false
             }
+        }
+
+        button.setOnClickListener {
+            button.setBackgroundColor(Color.argb(if (isTorchOn) 0 else 255, red, green, blue))
+            rotation = if (isTorchOn) 0 else 24
+            isTorchOn = !isTorchOn
         }
     }
 
