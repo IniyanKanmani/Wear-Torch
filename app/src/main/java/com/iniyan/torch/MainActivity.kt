@@ -1,19 +1,19 @@
 package com.iniyan.torch
 
+import android.net.Uri
+import kotlin.math.abs
+import android.os.Bundle
+import android.view.View
 import android.app.Activity
+import android.widget.Button
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
-import android.os.Bundle
-import android.provider.Settings
 import android.view.MotionEvent
-import android.view.View
-import android.widget.Button
+import android.provider.Settings
+import android.util.Log
 import androidx.core.view.InputDeviceCompat
 import androidx.core.view.MotionEventCompat
 import com.iniyan.torch.databinding.ActivityMainBinding
-import kotlin.math.abs
-
 
 class MainActivity : Activity() {
     companion object {
@@ -36,7 +36,7 @@ class MainActivity : Activity() {
             val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-            intent.data = Uri.parse("package:com.iniyan.torch")
+            intent.data = Uri.parse("package:$packageName")
 
             applicationContext.startActivity(intent)
             settingsCanWrite = Settings.System.canWrite(applicationContext)
