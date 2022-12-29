@@ -10,7 +10,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.MotionEvent
 import android.provider.Settings
-import android.util.Log
 import androidx.core.view.InputDeviceCompat
 import androidx.core.view.MotionEventCompat
 import com.iniyan.torch.databinding.ActivityMainBinding
